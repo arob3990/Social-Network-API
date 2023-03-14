@@ -12,7 +12,7 @@ module.exports = {
             .populate('friends')
             .populate('thoughts')
             .then((dbUserData) => 
-            !user
+            !dbUserData
             ? res.status(404).json({ message: 'No user with that ID' })
             : res.json(dbUserData)
             )

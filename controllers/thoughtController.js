@@ -20,9 +20,9 @@ module.exports = {
     createThought(req, res) {
         Thought.create(req.body)
             .then((dbThoughtData) => {
-                return userController.findOneAndUpdate(
+                return User.findOneAndUpdate(
                     { _id: req.body.userId },
-                    { $addToSet: { thoughts: dbThought}},
+                    { $addToSet: { thoughts: dbThoughtData}},
                     { new: true }
                 );
             })
@@ -68,8 +68,8 @@ module.exports = {
                         { new: true }
                     )
                 )
-            .then((dbuserData) => {
-                !dbUserData
+            .then((dbUserData) => {
+                ! dbUserData
                     ? res.status(404).json({ message: 'Thought deleted but no User associated with it'})
                     : res.json({ message: 'Thought successfully deleted' })
 
@@ -95,7 +95,7 @@ module.exports = {
     },
 
     deleteReaction(req, res) {
-        Thought.findOneAndupdate(
+        Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
             { $pull : {reactions: { reactionId: req.params.reactionId }}},
             { runValidators: true, new: true }
